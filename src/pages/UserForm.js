@@ -26,47 +26,14 @@ class UserForm extends React.Component {
     userForm: {
       firstName: "Łukasz",
       lastName: "Karbowniczek",
-      devLangs: [
-        {
-          devLang: "HTML",
-          devExperience: "10",
-          devLastUse: "2010"
-        },
-        {
-          devLang: "CSS",
-          devExperience: "5",
-          devLastUse: "2000"
-        }
-      ],
-      tools: [
-        {
-          tool: "GIT",
-          toolExperience: "5",
-          toolLastUse: "2020"
-        },
-        {
-          tool: "Freemarker",
-          toolExperience: "2",
-          toolLastUse: "2020"
-        }
-      ],
+      devLangs: [],
+      tools: [],
       database: [],
       others: [],
       education: [],
-      certificates: [
-        {
-          certificate_year: "a",
-          certificate_name: "a",
-          certificate_domain: "a",
-          certificate_rganized: "a"
-        },
-        {
-          certificate_year: "b",
-          certificate_name: "b",
-          certificate_domain: "b",
-          certificate_rganized: "b"
-        }
-      ],
+      languages: [],
+      projects: [],
+      certificates: []
     }
   };
 
@@ -310,7 +277,13 @@ class UserForm extends React.Component {
                     <Card.Body>
                       <Languages
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
+                        handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -322,8 +295,14 @@ class UserForm extends React.Component {
                   <Accordion.Collapse eventKey="6">
                     <Card.Body>
                       <Projects
-                        userForm={userForm}
-                        handlerAddRow={this.handlerAddRow}
+                         userForm={userForm}
+                         editIdx={this.state.editIdx}
+                         handlerAddRow={this.handlerAddRow}
+                         handleEditChange={this.handleEditChange}
+                         handlerDeleteRow={this.handlerDeleteRow}
+                         validateForm={this.validateForm}
+                         startEditing={this.startEditing}
+                         stopEditing={this.stopEditing}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -336,7 +315,13 @@ class UserForm extends React.Component {
                     <Card.Body>
                       <Certificates
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
+                        handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
                       />
                     </Card.Body>
                   </Accordion.Collapse>

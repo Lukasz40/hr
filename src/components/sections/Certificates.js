@@ -1,65 +1,86 @@
 import React, { Component } from "react";
-import { Form, Col, Button } from 'react-bootstrap';
-//import RowList from "../RowList";
+import { Form, Col, Button } from "react-bootstrap";
+import RowList from "../RowList";
 
-export default class  Certificates extends Component {
+export default class Certificates extends Component {
   state = {
-    certificate_year: "",
-    certificate_name: "",
-    certificate_domain: "",
-    certificate_rganized: "",
+    certificateName: "",
+    certificateYear: ""
   };
 
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    });
+    })
   };
 
   handleAdd = () => {
     const add = this.props.handlerAddRow(this.state, "certificates")
     if(add){
       this.setState({
-        certificate_year: "",
-        certificate_name: "",
-        certificate_domain: "",
-        certificate_rganized: "",
+        certificateName: "",
+        certificateYear: ""
       })
     }
   }
 
   render() {
-    //const list = this.props.userForm.certificates;
+    const list = this.props.userForm.certificates;
+    const {
+          handlerDeleteRow,
+          handleEditChange,
+          validateForm,
+          editIdx,
+          startEditing,
+          stopEditing,
+          } = this.props
     return (
       <>
-        {/* <RowList list={list} section="certificates" /> */}
+        <RowList 
+          list={list} 
+          editIdx={editIdx} 
+          section="certificates" 
+          rowName="certificateName"
+          rowsList={[
+            {
+              name: "certificateName",
+              label: "Nazwa"
+            },
+            {
+              name: "certificateYear",
+              label: "Rok"
+            }
+          ]}
+          handlerDeleteRow={handlerDeleteRow} 
+          handleEditChange={handleEditChange}
+          startEditing={startEditing} 
+          stopEditing={stopEditing}
+          handleChange={this.handleChange}
+        />
         <Form.Row>
-            <Form.Group as={Col} controlId="formGridYear">
-                <Form.Label>Rok ukończenia</Form.Label>
-                <Form.Control name="certificate_year" placeholder="wypełnij pole" value={this.state.certificate_year} onChange={this.handleChange} />
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridNazwa">
-                <Form.Label>Nazwa</Form.Label>
-                <Form.Control name="certificate_name" placeholder="wypełnij pole" value={this.state.certificate_name} onChange={this.handleChange} />
-            </Form.Group>
-        </Form.Row>
-        <Form.Row>
-            <Form.Group as={Col} controlId="formGridDomena">
-                <Form.Label>Domena / Dziedzina</Form.Label>
-                <Form.Control name="certificate_domain" placeholder="wypełnij pole" value={this.state.certificate_domain} onChange={this.handleChange} />
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridZorganizowany">
-                <Form.Label>Zorganizowany przez</Form.Label>
-                <Form.Control name="certificate_rganized" placeholder="wypełnij pole" value={this.state.certificate_rganized} onChange={this.handleChange} />
-            </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Button
-            className="right"
-            onClick={() => this.handleAdd()}
-          >
-            Dodaj
-          </Button>
+          <Form.Group as={Col} controlId="certificateName">
+            <Form.Label>Nazwa</Form.Label>
+            <Form.Control
+              value={this.state.certificateName}
+              onChange={this.handleChange}
+              name="certificateName"
+              placeholder="wypełnij pole"
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="certificateYear">
+            <Form.Label>Rok</Form.Label>
+            <Form.Control
+              value={this.state.certificateYear}
+              onChange={this.handleChange}
+              name="certificateYear"
+              placeholder="wypełnij pole"
+            />
+          </Form.Group>
+          <Form.Group as={Col} className="center">
+              <Button onClick={() => this.handleAdd()} disabled={!validateForm(this.state.certificateName,this.state.certificateYear,false)} >
+                  Dodaj
+              </Button>
+          </Form.Group>
         </Form.Row>
       </>
     );
