@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Form,
-  Button,
-  Col,
-  Row,
-  Container,
-  Accordion,
-  Card
-} from "react-bootstrap";
+import {Form,Button,Col,Row,Container,Accordion,Card} from "react-bootstrap";
 import DevLang from "../components/sections/DevLang";
 import Tools from "../components/sections/Tools";
 import DataBase from "../components/sections/DataBase";
@@ -17,22 +9,33 @@ import Languages from "../components/sections/Languages";
 import Projects from "../components/sections/Projects";
 import Certificates from "../components/sections/Certificates";
 
+const devLangsDictionary = ["HTML","HTML5","CSS","CSS3","Less","Sass","JavaScript","TypeScript","jQuery","XML","Velocity","Bootstrap","XSLT",
+    "PHP","Python","ReactJS","Angular","SQL","C","C++","C #",".NET","Java","Hibernate","Spring","Spring Boot","Spring Data","Spring Security",
+    "Web Services","RESTful Web Services","Apache Tomcat","Thymeleaf"]
+const toolsDictionary = ["FTL","GIT","SVN","RWD","Freemarker","Maven","Jenkins","IntelliJ IDEA","Eclipse","Sonar","SoapUI","Gradle","Jira",
+    "Confluence","Ansible","Inne (jakie?)"]
+const databaseDictionary = ["mySQL","Oracle","PostgreSQL"]
+const othersDictionary = ["UX/UI","Wordpress","Liferay","Eclipse","macOS","Linux","Windows"]
+const experienceDictionary = ["<0,5","1","2","3","4","5","6","7","8","9","10",">10"]
+const lastUseDictionary = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015",
+    "2016","2017","2018","2019","2020"]
 
 class UserForm extends React.Component {
   state = {
+    editIdx: -1,
     userForm: {
       firstName: "Łukasz",
       lastName: "Karbowniczek",
-      devLang: [
+      devLangs: [
         {
-          devLangs: "HTML",
-          devExperience: "12",
-          devLastUse: "2020"
+          devLang: "HTML",
+          devExperience: "10",
+          devLastUse: "2010"
         },
         {
-          devLangs: "CSS",
-          devExperience: "12",
-          devLastUse: "2020"
+          devLang: "CSS",
+          devExperience: "5",
+          devLastUse: "2000"
         }
       ],
       tools: [
@@ -47,22 +50,9 @@ class UserForm extends React.Component {
           toolLastUse: "2020"
         }
       ],
-      education: [
-        {
-          school: "fgdfgsdfg",
-          department: "sdfgsdfgsdf",
-          direction: "dfgsdfgsdf",
-          title: "gsdfgsdfgsd",
-          education_year: "3"
-        },
-        {
-          school: "AGH",
-          department: "Informatyka",
-          direction: "Programowanie",
-          title: "Magister",
-          education_year: "5"
-        }
-      ],
+      database: [],
+      others: [],
+      education: [],
       certificates: [
         {
           certificate_year: "a",
@@ -123,14 +113,52 @@ class UserForm extends React.Component {
     })
   }
 
+  startEditing = (index) => {
+    this.setState({editIdx: index})
+  }
+
+  handleEditChange = (e, i, sectionName) => {
+    const {name} = e.target
+    const {value} = e.target
+    this.setState(prevState => {
+      const section = prevState.userForm[sectionName].map(
+          (row, j) => (j === i ? {...row, [name]: value} : row)
+        )
+        const sections = {
+          ...prevState.userForm,
+          [sectionName]: section
+        };
+        return {
+          userForm: sections
+        };
+    });
+  }
+
+  stopEditing = () => {
+    this.setState({editIdx: -1})
+  }
+
+  validateForm = (a,b,c) => {
+    if(a && b && c){
+      return (a.length > 0 && b.length > 0 && c.length > 0)
+    }else if(c === false) {
+      return (a.length > 0 && b.length)
+    }
+  }
+
+  checkOptions = (item,listitem) => {
+    const checkItem = listitem.includes(item)
+    return checkItem
+  }
+
+  optionsList = (name,section,dictionary) => {
+    const listitem = this.state.userForm[section].map(item => item[name])
+    const lists = dictionary.filter(item => (this.checkOptions(item,listitem) !== true ? item : '' ))
+    return lists
+  }
+
   render() {
     const { userForm } = this.state;
-    const devLangsDictionary = ["HTML","HTML5","CSS","CSS3","Less","Sass","JavaScript","TypeScript","jQuery","XML","Velocity","Bootstrap","XSLT",
-      "PHP","Python","ReactJS","Angular","SQL","C","C++","C #",".NET","Java","Hibernate","Spring","Spring Boot","Spring Data","Spring Security",
-      "Web Services","RESTful Web Services","Apache Tomcat","Thymeleaf"]
-    const experienceDictionary = ["<0,5","1","2","3","4","5","6","7","8","9","10",">10"]
-    const lastUseDictionary = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015",
-      "2016","2017","2018","2019","2020"]
     return (
       <Container fluid="true">
         <Row className="justify-content-md-center">
@@ -174,8 +202,14 @@ class UserForm extends React.Component {
                         experienceDictionary={experienceDictionary}
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
+                        optionsList={this.optionsList}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -187,11 +221,18 @@ class UserForm extends React.Component {
                   <Accordion.Collapse eventKey="1">
                     <Card.Body>
                       <Tools
+                        toolsDictionary={toolsDictionary}
                         experienceDictionary={experienceDictionary}
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
+                        optionsList={this.optionsList}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -203,10 +244,18 @@ class UserForm extends React.Component {
                   <Accordion.Collapse eventKey="2">
                     <Card.Body>
                       <DataBase
+                        databaseDictionary={databaseDictionary}
                         experienceDictionary={experienceDictionary}
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
+                        handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
+                        optionsList={this.optionsList}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -218,10 +267,18 @@ class UserForm extends React.Component {
                   <Accordion.Collapse eventKey="3">
                     <Card.Body>
                       <Others
+                        othersDictionary={othersDictionary}
                         experienceDictionary={experienceDictionary}
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
+                        handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
+                        optionsList={this.optionsList}
                       />
                     </Card.Body>
                   </Accordion.Collapse>
@@ -234,7 +291,13 @@ class UserForm extends React.Component {
                     <Card.Body>
                       <Education
                         userForm={userForm}
+                        editIdx={this.state.editIdx}
                         handlerAddRow={this.handlerAddRow}
+                        handleEditChange={this.handleEditChange}
+                        handlerDeleteRow={this.handlerDeleteRow}
+                        validateForm={this.validateForm}
+                        startEditing={this.startEditing}
+                        stopEditing={this.stopEditing}
                       />
                     </Card.Body>
                   </Accordion.Collapse>

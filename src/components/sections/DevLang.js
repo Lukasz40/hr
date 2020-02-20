@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import RowList from "../RowList";
-import Options from "../Options";
+import Select from "../Select";
 
 export default class DevLang extends Component {
   state = {
-    devLangs: "",
+    devLang: "",
     devExperience: "",
     devLastUse: ""
   };
@@ -14,79 +14,74 @@ export default class DevLang extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  };
+  }; 
 
   handleAdd = () => {
-    const add = this.props.handlerAddRow(this.state, "devLang")
+    const add = this.props.handlerAddRow(this.state, "devLangs")
     if(add){
       this.setState({
-        devLangs: "",
+        devLang: "",
         devExperience: "",
         devLastUse: ""
       })
     }
   }
-  
-  checkOptions = (item,listitem) => {
-    const checkItem = listitem.includes(item)
-    return checkItem
-  }
-
-  options = () => {
-    const listitem = this.props.userForm.devLang.map(item => item.devLangs)
-    const lists = this.props.devLangsDictionary.filter(item => (this.checkOptions(item,listitem) !== true ? item : '' ))
-    return lists
-  }
 
   render() {
-    const list = this.props.userForm.devLang
-    const {experienceDictionary, lastUseDictionary, handlerDeleteRow} = this.props
+    const list = this.props.userForm.devLangs
+    const { experienceDictionary,
+            lastUseDictionary,
+            devLangsDictionary,
+            handlerDeleteRow,
+            handleEditChange,
+            validateForm,
+            editIdx,
+            startEditing,
+            stopEditing,
+            optionsList} = this.props
+    
     return (
       <>
-        <RowList list={list} section="devLang" handlerDeleteRow={handlerDeleteRow} />
+        <RowList 
+            list={list} 
+            editIdx={editIdx} 
+            section="devLangs" 
+            rowName="devLang"
+            experienceDictionary="devExperience"
+            lastUseDictionary="devLastUse"
+            handlerDeleteRow={handlerDeleteRow} 
+            handleEditChange={handleEditChange}
+            startEditing={startEditing} 
+            stopEditing={stopEditing}
+            handleChange={this.handleChange}
+            expirenceOptionsList={experienceDictionary}
+            lastUseOptionsList={lastUseDictionary} />
         <Form.Row>
-            <Form.Group as={Col} controlId="devLangs">
-                <Form.Label>Języki programowania</Form.Label>
-                <Form.Control 
-                    as="select"
-                    value={this.state.devLangs}
-                    onChange={this.handleChange}
-                    name="devLangs"
-                    >
-                    <option value="">Wybierz...</option>
-                    <Options list={this.options()} />
-                </Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} controlId="devExperience">
-                <Form.Label>Doświadczenie w latach</Form.Label>
-                <Form.Control 
-                    as="select" 
-                    value={this.state.devExperience}
-                    onChange={this.handleChange}
-                    name="devExperience"
-                    >
-                    <option>Wybierz...</option>
-                    <Options list={experienceDictionary} />
-                </Form.Control>
+            <Select 
+              label="Języki programowania" 
+              section="devLangs"
+              name="devLang" 
+              dictionary={devLangsDictionary}
+              handleChange={this.handleChange} 
+              value={this.state.devLang} 
+              optionsList={optionsList} />
 
-            </Form.Group>
-            <Form.Group as={Col} controlId="devLastUse">
-                <Form.Label>Doświadczenie w latach</Form.Label>
-                <Form.Control 
-                    as="select" 
-                    value={this.state.devLastUse}
-                    onChange={this.handleChange}
-                    name="devLastUse"
-                >
-                    <option>Wybierz...</option>
-                    <Options list={lastUseDictionary} />
-                </Form.Control>
+            <Select 
+              label="Doświadczenie w latach" 
+              name="devExperience" 
+              handleChange={this.handleChange} 
+              value={this.state.devExperience} 
+              optionsList={experienceDictionary} />
 
-            </Form.Group>
+            <Select 
+              label="Ostatnie użycie (rok)" 
+              name="devLastUse" 
+              handleChange={this.handleChange} 
+              value={this.state.devLastUse} 
+              optionsList={lastUseDictionary} />
+          
             <Form.Group as={Col} className="center">
-                <Button
-                    onClick={() => this.handleAdd()}
-                >
+                <Button onClick={() => this.handleAdd()} disabled={!validateForm(this.state.devLang,this.state.devExperience,this.state.devLastUse)} >
                     Dodaj
                 </Button>
             </Form.Group>

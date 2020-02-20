@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from 'react-bootstrap';
-import RowList from "../RowList";
+//import RowList from "../RowList";
 
 export default class  Certificates extends Component {
   state = {
@@ -29,10 +29,10 @@ export default class  Certificates extends Component {
   }
 
   render() {
-    const list = this.props.userForm.certificates;
+    //const list = this.props.userForm.certificates;
     return (
       <>
-        <RowList list={list} section="certificates" />
+        {/* <RowList list={list} section="certificates" /> */}
         <Form.Row>
             <Form.Group as={Col} controlId="formGridYear">
                 <Form.Label>Rok ukończenia</Form.Label>

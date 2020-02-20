@@ -5,10 +5,7 @@ import RowList from "../RowList";
 export default class Education extends Component {
   state = {
     school: "",
-    department: "",
-    direction: "",
-    title: "",
-    education_year: ""
+    years: ""
   };
 
   handleChange = e => {
@@ -19,26 +16,50 @@ export default class Education extends Component {
 
   handleAdd = () => {
     const add = this.props.handlerAddRow(this.state, "education")
-    console.log(this.state)
     if(add){
       this.setState({
         school: "",
-        department: "",
-        direction: "",
-        title: "",
-        education_year: ""
+        years: ""
       })
     }
   }
 
   render() {
     const list = this.props.userForm.education;
+    const {
+          handlerDeleteRow,
+          handleEditChange,
+          validateForm,
+          editIdx,
+          startEditing,
+          stopEditing,
+          } = this.props
     return (
       <>
-        <RowList list={list} section="education" />
+        <RowList 
+          list={list} 
+          editIdx={editIdx} 
+          section="education" 
+          rowName="school"
+          rowsList={[
+            {
+              name: "school",
+              label: "Nazwa uczelni"
+            },
+            {
+              name: "years",
+              label: "Od - do ( lata)"
+            }
+          ]}
+          handlerDeleteRow={handlerDeleteRow} 
+          handleEditChange={handleEditChange}
+          startEditing={startEditing} 
+          stopEditing={stopEditing}
+          handleChange={this.handleChange}
+        />
         <Form.Row>
-          <Form.Group as={Col} controlId="formGridShool">
-            <Form.Label>Szkoła</Form.Label>
+          <Form.Group as={Col} controlId="school">
+            <Form.Label>Nazwa uczelni</Form.Label>
             <Form.Control
               value={this.state.school}
               onChange={this.handleChange}
@@ -46,51 +67,20 @@ export default class Education extends Component {
               placeholder="wypełnij pole"
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridDepartment">
-            <Form.Label>Wydział</Form.Label>
+          <Form.Group as={Col} controlId="years">
+            <Form.Label>Od - do ( lata)</Form.Label>
             <Form.Control
-              value={this.state.department}
+              value={this.state.years}
               onChange={this.handleChange}
-              name="department"
+              name="years"
               placeholder="wypełnij pole"
             />
           </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col} controlId="formGridDirection">
-            <Form.Label>Kierunek</Form.Label>
-            <Form.Control
-              value={this.state.direction}
-              onChange={this.handleChange}
-              name="direction"
-              placeholder="wypełnij pole"
-            />
+          <Form.Group as={Col} className="center">
+              <Button onClick={() => this.handleAdd()} disabled={!validateForm(this.state.school,this.state.years,false)} >
+                  Dodaj
+              </Button>
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridTitle">
-            <Form.Label>Uzyskany tytuł</Form.Label>
-            <Form.Control
-              value={this.state.title}
-              onChange={this.handleChange}
-              name="title"
-              placeholder="wypełnij pole"
-            />
-          </Form.Group>
-          <Form.Group as={Col} controlId="formGridEducationYear">
-            <Form.Label>Rok ukończenia</Form.Label>
-            <Form.Control
-              value={this.state.education_year}
-              onChange={this.handleChange}
-              name="education_year"
-              placeholder="wypełnij pole"
-            />
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Button
-            onClick={() => this.handleAdd()}
-          >
-            Dodaj
-          </Button>
         </Form.Row>
       </>
     );
