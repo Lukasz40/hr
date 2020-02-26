@@ -33,12 +33,13 @@ export default class Languages extends Component {
           editIdx,
           startEditing,
           stopEditing,
-          } = this.props
+          editedSection} = this.props
     return (
       <>
         <RowList 
           list={list} 
           editIdx={editIdx} 
+          editedSection={editedSection}
           section="languages" 
           rowName="certificateName"
           rowsList={[

@@ -38,13 +38,15 @@ export default class Tools extends Component {
             editIdx,
             startEditing,
             stopEditing,
-            optionsList} = this.props
+            optionsList,
+            editedSection} = this.props
 
     return (
       <>
         <RowList 
             list={list} 
             editIdx={editIdx} 
+            editedSection={editedSection}
             section="tools" 
             rowName="tool"
             experienceDictionary="toolExperience"

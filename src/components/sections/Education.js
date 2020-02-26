@@ -33,12 +33,13 @@ export default class Education extends Component {
           editIdx,
           startEditing,
           stopEditing,
-          } = this.props
+          editedSection} = this.props
     return (
       <>
         <RowList 
           list={list} 
           editIdx={editIdx} 
+          editedSection={editedSection}
           section="education" 
           rowName="school"
           rowsList={[

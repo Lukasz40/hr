@@ -3,7 +3,6 @@ import UserForm from '../pages/UserForm';
 
 const HomePage = (props) => {
     const {user, handlerAddRow} = props
-    //console.log(props.loggedInStatus)
     return (
         <div className="home">
             

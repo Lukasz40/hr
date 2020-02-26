@@ -38,13 +38,14 @@ export default class DevLang extends Component {
             editIdx,
             startEditing,
             stopEditing,
-            optionsList} = this.props
-    
+            optionsList,
+            editedSection} = this.props
     return (
       <>
         <RowList 
             list={list} 
             editIdx={editIdx} 
+            editedSection={editedSection}
             section="devLangs" 
             rowName="devLang"
             experienceDictionary="devExperience"

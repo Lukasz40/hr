@@ -37,12 +37,14 @@ export default class Others extends Component {
             editIdx,
             startEditing,
             stopEditing,
-            optionsList} = this.props
+            optionsList,
+            editedSection} = this.props
         return (
             <>
                 <RowList 
                   list={list} 
                   editIdx={editIdx} 
+                  editedSection={editedSection}
                   section="others" 
                   rowName="otherName"
                   experienceDictionary="otherExperience"

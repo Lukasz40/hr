@@ -35,12 +35,14 @@ export default class Projects extends Component {
           editIdx,
           startEditing,
           stopEditing,
+          editedSection
           } = this.props
     return (
       <>
         <RowList 
           list={list} 
           editIdx={editIdx} 
+          editedSection={editedSection}
           section="projects" 
           rowName="projectName"
           rowsList={[

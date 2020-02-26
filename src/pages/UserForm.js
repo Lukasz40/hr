@@ -23,10 +23,16 @@ const lastUseDictionary = ["2000","2001","2002","2003","2004","2005","2006","200
 class UserForm extends React.Component {
   state = {
     editIdx: -1,
+    editedSection: "",
     userForm: {
       firstName: "Łukasz",
       lastName: "Karbowniczek",
-      devLangs: [],
+      devLangs: [
+          { devLang: "HTML", devExperience: ">10", devLastUse: "2020" },
+          { devLang: "HTML5", devExperience: "6", devLastUse: "2020" },
+          { devLang: "CSS", devExperience: ">10", devLastUse: "2020" },
+          { devLang: "CSS3", devExperience: ">10", devLastUse: "2020" }
+    ],
       tools: [],
       database: [],
       others: [],
@@ -80,8 +86,11 @@ class UserForm extends React.Component {
     })
   }
 
-  startEditing = (index) => {
-    this.setState({editIdx: index})
+  startEditing = (index,sectionName) => {
+    this.setState({
+       editIdx: index,
+       editedSection: sectionName
+    })
   }
 
   handleEditChange = (e, i, sectionName) => {
@@ -170,6 +179,7 @@ class UserForm extends React.Component {
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -193,6 +203,7 @@ class UserForm extends React.Component {
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -216,6 +227,7 @@ class UserForm extends React.Component {
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -239,6 +251,7 @@ class UserForm extends React.Component {
                         lastUseDictionary={lastUseDictionary}
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -259,6 +272,7 @@ class UserForm extends React.Component {
                       <Education
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -278,6 +292,7 @@ class UserForm extends React.Component {
                       <Languages
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}
@@ -297,6 +312,7 @@ class UserForm extends React.Component {
                       <Projects
                          userForm={userForm}
                          editIdx={this.state.editIdx}
+                         editedSection={this.state.editedSection}
                          handlerAddRow={this.handlerAddRow}
                          handleEditChange={this.handleEditChange}
                          handlerDeleteRow={this.handlerDeleteRow}
@@ -316,6 +332,7 @@ class UserForm extends React.Component {
                       <Certificates
                         userForm={userForm}
                         editIdx={this.state.editIdx}
+                        editedSection={this.state.editedSection}
                         handlerAddRow={this.handlerAddRow}
                         handleEditChange={this.handleEditChange}
                         handlerDeleteRow={this.handlerDeleteRow}

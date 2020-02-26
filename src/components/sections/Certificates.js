@@ -33,12 +33,13 @@ export default class Certificates extends Component {
           editIdx,
           startEditing,
           stopEditing,
-          } = this.props
+          editedSection} = this.props
     return (
       <>
         <RowList 
           list={list} 
           editIdx={editIdx} 
+          editedSection={editedSection}
           section="certificates" 
           rowName="certificateName"
           rowsList={[

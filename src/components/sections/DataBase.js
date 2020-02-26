@@ -38,19 +38,21 @@ export default class  DataBase extends Component {
             editIdx,
             startEditing,
             stopEditing,
-            optionsList} = this.props
+            optionsList,
+            editedSection} = this.props
         return (
             <>
               <RowList 
                   list={list} 
                   editIdx={editIdx} 
+                  editedSection={editedSection}
                   section="database" 
                   rowName="databaseName"
                   experienceDictionary="databaseExperience"
                   lastUseDictionary="databaseLastUse"
-                  handlerDeleteRow={handlerDeleteRow} 
+                  handlerDeleteRow={handlerDeleteRow}
                   handleEditChange={handleEditChange}
-                  startEditing={startEditing} 
+                  startEditing={startEditing}
                   stopEditing={stopEditing}
                   handleChange={this.handleChange}
                   expirenceOptionsList={experienceDictionary}
@@ -58,7 +60,7 @@ export default class  DataBase extends Component {
               <Form.Row>
 
                   <Select 
-                    label="Bazdy danych" 
+                    label="Bazy danych" 
                     section="database"
                     name="databaseName" 
                     dictionary={databaseDictionary}

@@ -9,13 +9,13 @@ const Header = (props) => {
     if(props.loggedInStatus){
         return (
             <> 
-                <Navbar bg="light" expand="lg">
+                <Navbar expand="lg">
                     <Navbar.Brand><Nav.Link as={Link} to='/'><img src={logo_eo} alt="Company logo" /></Nav.Link></Navbar.Brand>
                     
                     <Navbar.Collapse id="basic-navbar-nav">
                         {props.user.adminRole ?
                             <Nav className="mr-auto">
-                                <Nav.Link as={Link} to="/users">Lista użytkowników</Nav.Link>
+                                <Nav.Link as={Link} to="/users">Lista pracowników</Nav.Link>
                             </Nav>
                             :
                             <></>
