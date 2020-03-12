@@ -24,7 +24,7 @@ const Select = (props) => {
                     name={name}
                     >
                     <option value="">Wybierz...</option>
-                    {typeof optionsList !== "function" ? <Options list={optionsList}/> : <Options list={optionsList(name,section,dictionary)} />  }
+                    {typeof optionsList !== "function" ? <Options list={optionsList}/> : <Options list={optionsList(name,section,dictionary)} />}
                 </Form.Control>
             </Form.Group>
         </>

@@ -7,7 +7,6 @@ import UsersList from "../pages/UsersList";
 import ErrorPage from "../pages/ErrorPage";
 import LoginPage from "../pages/LoginPage";
 import SignIn from "../pages/SignInPage";
-
 import PrivateRoute from "../components/PrivateRoute";
 
 const Page = props => {

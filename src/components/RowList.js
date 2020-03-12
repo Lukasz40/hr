@@ -1,101 +1,55 @@
 import React from "react";
-//import Row from "./Row"
-import { Table, Button, Form, Col } from "react-bootstrap";
-import Select from "./Select";
+import { Table, Button } from "react-bootstrap";
+import Inputs from "./Inputs"
 
-const Row = props => {
+const Cell = (props) => {
+  const {row,rowInfo,index} = props
   const {
-    handleEditChange,
-    handlerDeleteRow,
-    startEditing,
-    stopEditing,
     editIdx,
-    row,
-    index,
-    section,
-    rowName,
+    stopEditing,
+    startEditing,
+    handlerDeleteRow,
+    editedSection,
+    sectionInfo,
+    optionsList,
     experienceDictionary,
     lastUseDictionary,
-    expirenceOptionsList,
-    lastUseOptionsList,
-    rowsList,
-    editedSection
-  } = props;
-  const currentlyEditing = editIdx === props.index && editedSection === section;
+    handleEditChange} = rowInfo
+  const {inputList} = sectionInfo
+  const sectionName = sectionInfo.name
+  const currentlyEditing = editIdx === index && editedSection === sectionName;
   return (
-    <tr>
-      {rowsList ? (
-        <>
-          {currentlyEditing ? (
-            <>
-              {rowsList.map((col, i) => (
-                <td key={i}>
-                  <Form.Group as={Col} controlId={col.name}>
-                    <Form.Label>{col.label}</Form.Label>
-                    <Form.Control
-                      value={row[col.name]}
-                      onChange={e => handleEditChange(e, index, section)}
-                      name={col.name}
-                      placeholder="wypełnij pole"
-                    />
-                  </Form.Group>
-                </td>
-              ))}
-            </>
-          ) : (
-            <>
-              {rowsList.map((col, i) => (
-                <td key={i}>{row[col.name]}</td>
-              ))}
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <td>{row[rowName]}</td>
-          <td>
-            {currentlyEditing ? (
-              <Select
-                label={"Doświadczenie w latach"}
-                name={experienceDictionary}
-                handleChange={e => handleEditChange(e, index, section)}
-                value={row[experienceDictionary]}
-                optionsList={expirenceOptionsList}
-              />
+      <>
+        {inputList.map((input,i) => (
+          <td key={i}>
+            {(currentlyEditing && input.editable === true) ? (
+              <Inputs 
+                row={row[input.name]}
+                sectionInfo={sectionInfo}  
+                input={input} 
+                handleChange={e => handleEditChange(e, index, sectionName)}
+                optionsList={optionsList} 
+                experienceDictionary={experienceDictionary}
+                lastUseDictionary={lastUseDictionary} />
             ) : (
-              <>{row[experienceDictionary]}</>
+              <>{row[input.name]}</>
             )}
           </td>
-          <td>
-            {currentlyEditing ? (
-              <Select
-                label="Ostatnie użycie (rok)"
-                name={lastUseDictionary}
-                handleChange={e => handleEditChange(e, index, section)}
-                value={row[lastUseDictionary]}
-                optionsList={lastUseOptionsList}
-              />
-            ) : (
-              <>{row[lastUseDictionary]}</>
-            )}
-          </td>
-        </>
-      )}
-
-      <td>
-        <Button
-          onClick={() => {
-            currentlyEditing
-              ? stopEditing(index)
-              : startEditing(index, section);
-          }}
-        >
-          {currentlyEditing ? "Zapisz" : "Edytuj"}
-        </Button>
-        <Button onClick={() => handlerDeleteRow(index, section)}>Usuń</Button>
-      </td>
-    </tr>
-  );
+        ))}
+        <td>
+          <Button
+            onClick={() => {
+              currentlyEditing
+                ? stopEditing(index)
+                : startEditing(index, sectionName);
+            }}
+          >
+            {currentlyEditing ? "Zapisz" : "Edytuj"}
+          </Button>
+          <Button onClick={() => handlerDeleteRow(index, sectionName)}>Usuń</Button>
+        </td>
+      </>
+  )
 };
 
 const RowList = props => {
@@ -105,26 +59,10 @@ const RowList = props => {
       {list.length > 0 ? (
         <Table striped bordered hover>
           <tbody>
-            {list.map((row, index) => (
-              <Row
-                key={index}
-                row={row}
-                rowsList={props.rowsList}
-                editIdx={props.editIdx}
-                editedSection={props.editedSection}
-                startEditing={props.startEditing}
-                stopEditing={props.stopEditing}
-                handlerDeleteRow={props.handlerDeleteRow}
-                index={index}
-                section={props.section}
-                rowName={props.rowName}
-                handleChange={props.handleChange}
-                handleEditChange={props.handleEditChange}
-                experienceDictionary={props.experienceDictionary}
-                lastUseDictionary={props.lastUseDictionary}
-                expirenceOptionsList={props.expirenceOptionsList}
-                lastUseOptionsList={props.lastUseOptionsList}
-              />
+            {list.map((row, i) => (
+              <tr key={i}>
+                <Cell rowInfo={props} row={row} index={i} />
+              </tr>
             ))}
           </tbody>
         </Table>
